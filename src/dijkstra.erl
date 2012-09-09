@@ -6,24 +6,16 @@
 % Returns the length of the shortest path to the node
 % 0 if the node is not found
 entry(Node,Sorted) ->
-    lists:foldl(fun({NameNode, Length, _},Acc) -> 
-			if 
-			    % Check if we are searching in a good node
-			    NameNode == Node -> 
-				if
-				    Acc == 0 -> Length;
-				    true -> erlang:min(Length,Acc)
-				end;
-
-			    true -> Acc
-			end
-		end,			 
-	  0, Sorted).
+    case lists:keyfind(Node,1,Sorted) of
+	{_,Length,_} ->
+	    Length;
+	false -> 0
+    end.
 
 % Replace the entry for Node in sorted with a new entry
 replace(Node, N, Gateway, Sorted) ->
     NewMap = lists:keydelete(Node,1,Sorted),
-    lists:sort([{Node, N, Gateway} | NewMap]).
+    lists:keysort(2,[{Node, N, Gateway} | NewMap]).
 
 % Update the list Sorted
 update(Node, N, Gateway, Sorted) ->

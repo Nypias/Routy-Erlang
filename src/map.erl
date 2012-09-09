@@ -1,5 +1,5 @@
 -module(map).
--export([new/0,update/3,reachable/2,all_nodes/1]).
+-export([new/0,update/3]).
 
 % Public functions %
 
@@ -7,3 +7,7 @@
 new() ->
     [].
 
+% Updates the map to reflect that Node has directional links to all nodes in the list Links
+update(Node, Links, Map) ->
+    NewMap = lists:keydelete(Node,1,Map),
+    lists:append(NewMap, {Node, Links}).

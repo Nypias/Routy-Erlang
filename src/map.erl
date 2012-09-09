@@ -1,5 +1,5 @@
 -module(map).
--export([new/0,update/3, reachable/2]).
+-export([new/0,update/3, reachable/2, all_nodes/1]).
 
 % Public functions %
 
@@ -19,3 +19,10 @@ reachable(Node, Map) ->
 	false -> [];
 	{_, ListNodes} -> ListNodes
     end.
+
+% Returns all the nodes of the Map
+all_nodes(Map) ->
+    NewMap = lists:flatmap(fun({Node,Links}) -> [Node|Links] end, Map),
+    lists:usort(NewMap).
+    
+    

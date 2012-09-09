@@ -1,12 +1,12 @@
 -module(dijkstra).
--export([entry/2]).
+-export([entry/2, replace/4]).
 
 % Public functions
 
 % Returns the length of the shortest path to the node
 % 0 if the node is not found
 entry(Node,Sorted) ->
-    lists:foldl(fun({NameNode, Length, Gateway},Acc) -> 
+    lists:foldl(fun({NameNode, Length, _},Acc) -> 
 			if 
 			    % Check if we are searching in a good node
 			    NameNode == Node -> 
@@ -19,3 +19,8 @@ entry(Node,Sorted) ->
 			end
 		end,			 
 	  0, Sorted).
+
+% Replace the entry for Node in sorted with a new entry
+replace(Node, N, Gateway, Sorted) ->
+    NewMap = lists:keydelete(Node,1,Sorted),
+    lists:sort([{Node, N, Gateway} | NewMap]).

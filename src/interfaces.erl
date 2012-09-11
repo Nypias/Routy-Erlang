@@ -1,5 +1,5 @@
 -module(interfaces).
--export([new/0, add/4, remove/2, lookup/2, ref/2, name/2, list/1]).
+-export([new/0, add/4, remove/2, lookup/2, ref/2, name/2, list/1, broadcast/2]).
 
 new() ->
     [].
@@ -47,3 +47,8 @@ list(Intf, Final) ->
 	    Final;
 	[{Name, _, _} | Tail] -> list(Tail, [Name | Final])
     end.
+
+broadcast(Message, Intf) ->
+    lists:foreach(fun({_,_,Pid}) ->
+			  Pid ! Message end,
+		  Intf).

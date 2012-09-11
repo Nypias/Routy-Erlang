@@ -1,5 +1,5 @@
 -module(interfaces).
--export([new/0, add/4, remove/2, lookup/2, ref/2, name/2]).
+-export([new/0, add/4, remove/2, lookup/2, ref/2, name/2, list/1]).
 
 new() ->
     [].
@@ -37,4 +37,13 @@ name(Ref, Intf) ->
 	    {ok, Name};
 	false ->
 	    notfound
+    end.
+
+list(Intf) ->
+    list(Intf, []).
+list(Intf, Final) ->
+    case Intf of
+	[] ->
+	    Final;
+	[{Name, _, _} | Tail] -> list(Tail, [Name | Final])
     end.

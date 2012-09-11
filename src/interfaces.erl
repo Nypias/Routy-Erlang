@@ -1,5 +1,5 @@
 -module(interfaces).
--export([new/0, add/4, remove/2]).
+-export([new/0, add/4, remove/2, lookup/2]).
 
 new() ->
     [].
@@ -14,3 +14,11 @@ add(Name, Ref, Pid, Intf) ->
 
 remove(Name, Intf) ->
     lists:keydelete(Name, 1, Intf).
+
+lookup(Name, Intf) ->
+    case lists:keyfind(Name,1,Intf) of
+	{Name,_,Pid} ->
+	    {ok, Pid};
+	false ->
+	    notfound
+    end.

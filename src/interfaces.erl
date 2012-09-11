@@ -1,5 +1,5 @@
 -module(interfaces).
--export([new/0, add/4, remove/2, lookup/2, ref/2]).
+-export([new/0, add/4, remove/2, lookup/2, ref/2, name/2]).
 
 new() ->
     [].
@@ -27,6 +27,14 @@ ref(Name, Intf) ->
     case lists:keyfind(Name,1,Intf) of
 	{Name, Ref,_} ->
 	    {ok, Ref};
+	false ->
+	    notfound
+    end.
+
+name(Ref, Intf) ->
+    case lists:keyfind(Ref,2,Intf) of
+	{Name, Ref,_} ->
+	    {ok, Name};
 	false ->
 	    notfound
     end.
